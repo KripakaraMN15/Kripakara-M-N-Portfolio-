@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kripakara-mn.ai.studio/sitemap.xml

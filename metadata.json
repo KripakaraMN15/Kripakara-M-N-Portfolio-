@@ -1,0 +1,8 @@
+{
+  "name": "Kripakara Portfolio Engine",
+  "description": "Portfolio website that showcases my latest projects and includes a contact form",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
