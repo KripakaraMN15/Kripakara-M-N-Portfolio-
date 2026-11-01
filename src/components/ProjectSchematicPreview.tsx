@@ -27,10 +27,10 @@ export const ProjectSchematicPreview: React.FC<ProjectSchematicPreviewProps> = (
   type,
   inverted = false,
   className = '',
-  isHovered = false,
+  isHovered,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { amount: 0.25 });
+  const isInView = useInView(containerRef, { amount: 0.1 });
   const [activeStep, setActiveStep] = useState(type === 'contractbreaker' ? 4 : 0);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -43,23 +43,21 @@ export const ProjectSchematicPreview: React.FC<ProjectSchematicPreviewProps> = (
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  // Default highlighted box when not hovered (VERVIY = 4 for contractbreaker, else 0)
+  // Default highlighted box when motion is reduced (VERIFY = 4 for contractbreaker, else 0)
   const defaultStep = type === 'contractbreaker' ? 4 : 0;
 
-  // Sequential highlight moving across pipeline boxes every 400ms when hovered
+  // Sequential highlight moving across pipeline boxes continuously (live)
   useEffect(() => {
-    if (prefersReducedMotion) return;
-    const shouldAnimate = isHovered !== undefined ? isHovered : isInView;
-    if (shouldAnimate) {
-      const maxSteps = type === 'tripbuddy' ? 7 : type === 'contractbreaker' ? 5 : 4;
-      const interval = setInterval(() => {
-        setActiveStep((prev) => (prev + 1) % maxSteps);
-      }, 400);
-      return () => clearInterval(interval);
-    } else {
+    if (prefersReducedMotion) {
       setActiveStep(defaultStep);
+      return;
     }
-  }, [isHovered, isInView, prefersReducedMotion, type, defaultStep]);
+    const maxSteps = type === 'tripbuddy' ? 7 : type === 'contractbreaker' ? 5 : 4;
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % maxSteps);
+    }, 450);
+    return () => clearInterval(interval);
+  }, [prefersReducedMotion, type, defaultStep]);
 
   // Fixed colors as specified
   const baseStroke = '#0A0A0A';
@@ -67,15 +65,15 @@ export const ProjectSchematicPreview: React.FC<ProjectSchematicPreviewProps> = (
   const signalGreen = '#008F3A';
   const panelBg = '#F5F5F0';
 
-  const isAnimated = !prefersReducedMotion && (isHovered !== undefined ? isHovered : isInView);
+  const isAnimated = !prefersReducedMotion;
 
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden border border-[rgba(10,10,10,0.18)] bg-[${panelBg}] p-4 font-mono-tech ${className}`}
+      className={`relative overflow-hidden border border-[rgba(10,10,10,0.18)] bg-[${panelBg}] p-2 sm:p-2.5 font-mono-tech flex flex-col ${className}`}
       style={{ backgroundColor: panelBg }}
     >
-      <div className="mb-2 flex items-center justify-between border-b border-[rgba(10,10,10,0.18)] pb-1.5 text-[10px] uppercase tracking-widest text-[#55554F]">
+      <div className="mb-1 flex shrink-0 items-center justify-between border-b border-[rgba(10,10,10,0.18)] pb-1 text-[10px] uppercase tracking-widest text-[#55554F]">
         <div className="flex items-center gap-2">
           <span>FIG // {getSchematicTitle(type)}</span>
         </div>
@@ -84,213 +82,213 @@ export const ProjectSchematicPreview: React.FC<ProjectSchematicPreviewProps> = (
       {type === 'contractbreaker' && (
         <svg
           viewBox="0 0 360 195"
-          className="h-full w-full"
+          className="w-full flex-1 min-h-0"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           {/* Background grid lines */}
-          <line x1="0" y1="52" x2="360" y2="52" stroke={mutedStroke} strokeOpacity="0.15" strokeDasharray="2 2" />
-          <line x1="0" y1="102" x2="360" y2="102" stroke={mutedStroke} strokeOpacity="0.15" strokeDasharray="2 2" />
+          <line x1="0" y1="50" x2="360" y2="50" stroke={mutedStroke} strokeOpacity="0.15" strokeDasharray="2 2" />
+          <line x1="0" y1="100" x2="360" y2="100" stroke={mutedStroke} strokeOpacity="0.15" strokeDasharray="2 2" />
 
           {/* 1. ANALYZE */}
           <rect
             x="6"
-            y="32"
-            width="58"
-            height="40"
+            y="30"
+            width="56"
+            height="38"
             stroke={activeStep === 0 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 0 ? '1.8' : '1.2'}
             fill={activeStep === 0 ? 'rgba(0, 143, 58, 0.10)' : 'none'}
           />
           <text
-            x="35"
-            y="57"
+            x="34"
+            y="54"
             textAnchor="middle"
             fill={baseStroke}
-            fontSize="10"
-            fontFamily="JetBrains Mono"
+            fontSize="8.5"
+            fontFamily="'JetBrains Mono', monospace"
           >
             ANALYZE
           </text>
 
           {/* Arrow 1 */}
-          <line x1="64" y1="52" x2="72" y2="52" stroke={baseStroke} strokeWidth="1.2" />
-          <polygon points="72,52 68,49 68,55" fill={baseStroke} />
+          <line x1="62" y1="49" x2="74" y2="49" stroke={baseStroke} strokeWidth="1.2" />
+          <polygon points="74,49 69,46 69,52" fill={baseStroke} />
           {isAnimated && (
             <circle r="1.8" fill={signalGreen}>
-              <animate attributeName="cx" from="64" to="72" dur="1.6s" repeatCount="indefinite" />
-              <animate attributeName="cy" from="52" to="52" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cx" from="62" to="74" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cy" from="49" to="49" dur="1.6s" repeatCount="indefinite" />
             </circle>
           )}
 
           {/* 2. HYPOTHESIZE */}
           <rect
-            x="74"
-            y="32"
+            x="76"
+            y="30"
             width="74"
-            height="40"
+            height="38"
             stroke={activeStep === 1 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 1 ? '1.8' : '1.2'}
             fill={activeStep === 1 ? 'rgba(0, 143, 58, 0.10)' : 'none'}
           />
           <text
-            x="111"
-            y="57"
+            x="113"
+            y="54"
             textAnchor="middle"
             fill={baseStroke}
-            fontSize="10"
-            fontFamily="JetBrains Mono"
+            fontSize="8"
+            fontFamily="'JetBrains Mono', monospace"
           >
             HYPOTHESIZE
           </text>
 
           {/* Arrow 2 */}
-          <line x1="148" y1="52" x2="156" y2="52" stroke={baseStroke} strokeWidth="1.2" />
-          <polygon points="156,52 152,49 152,55" fill={baseStroke} />
+          <line x1="150" y1="49" x2="160" y2="49" stroke={baseStroke} strokeWidth="1.2" />
+          <polygon points="160,49 155,46 155,52" fill={baseStroke} />
           {isAnimated && (
             <circle r="1.8" fill={signalGreen}>
-              <animate attributeName="cx" from="148" to="156" dur="1.6s" repeatCount="indefinite" />
-              <animate attributeName="cy" from="52" to="52" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cx" from="150" to="160" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cy" from="49" to="49" dur="1.6s" repeatCount="indefinite" />
             </circle>
           )}
 
           {/* 3. APPROVE */}
           <rect
-            x="158"
-            y="32"
-            width="58"
-            height="40"
+            x="162"
+            y="30"
+            width="56"
+            height="38"
             stroke={activeStep === 2 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 2 ? '1.8' : '1.2'}
             fill={activeStep === 2 ? 'rgba(0, 143, 58, 0.10)' : 'none'}
           />
           <text
-            x="187"
-            y="57"
+            x="190"
+            y="54"
             textAnchor="middle"
             fill={baseStroke}
-            fontSize="10"
-            fontFamily="JetBrains Mono"
+            fontSize="8.5"
+            fontFamily="'JetBrains Mono', monospace"
           >
             APPROVE
           </text>
 
           {/* Arrow 3 */}
-          <line x1="216" y1="52" x2="224" y2="52" stroke={baseStroke} strokeWidth="1.2" />
-          <polygon points="224,52 220,49 220,55" fill={baseStroke} />
+          <line x1="218" y1="49" x2="228" y2="49" stroke={baseStroke} strokeWidth="1.2" />
+          <polygon points="228,49 223,46 223,52" fill={baseStroke} />
           {isAnimated && (
             <circle r="1.8" fill={signalGreen}>
-              <animate attributeName="cx" from="216" to="224" dur="1.6s" repeatCount="indefinite" />
-              <animate attributeName="cy" from="52" to="52" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cx" from="218" to="228" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cy" from="49" to="49" dur="1.6s" repeatCount="indefinite" />
             </circle>
           )}
 
           {/* 4. EXECUTE */}
           <rect
-            x="226"
-            y="32"
-            width="58"
-            height="40"
+            x="230"
+            y="30"
+            width="56"
+            height="38"
             stroke={activeStep === 3 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 3 ? '1.8' : '1.2'}
             fill={activeStep === 3 ? 'rgba(0, 143, 58, 0.10)' : 'none'}
           />
           <text
-            x="255"
-            y="57"
+            x="258"
+            y="54"
             textAnchor="middle"
             fill={baseStroke}
-            fontSize="10"
-            fontFamily="JetBrains Mono"
+            fontSize="8.5"
+            fontFamily="'JetBrains Mono', monospace"
           >
             EXECUTE
           </text>
 
           {/* Line down to Fault Tag */}
-          <line x1="255" y1="72" x2="255" y2="88" stroke={baseStroke} strokeWidth="1.2" />
-          <polygon points="255,88 252,84 258,84" fill={baseStroke} />
+          <line x1="258" y1="68" x2="258" y2="84" stroke={baseStroke} strokeWidth="1.2" />
+          <polygon points="258,84 255,80 261,80" fill={baseStroke} />
 
           {/* Fault Tag under EXECUTE */}
           <rect
-            x="186"
-            y="90"
-            width="138"
-            height="24"
+            x="180"
+            y="86"
+            width="156"
+            height="22"
             stroke={mutedStroke}
             strokeWidth="1.2"
             strokeDasharray="2 2"
             fill="none"
           />
           <text
-            x="255"
-            y="106"
+            x="258"
+            y="101"
             textAnchor="middle"
             fill={baseStroke}
-            fontSize="10"
-            fontFamily="JetBrains Mono"
+            fontSize="8"
+            fontFamily="'JetBrains Mono', monospace"
           >
             FAULT: RESPONSE DROPPED
           </text>
 
           {/* Arrow 4 */}
-          <line x1="284" y1="52" x2="294" y2="52" stroke={baseStroke} strokeWidth="1.2" />
-          <polygon points="294,52 290,49 290,55" fill={baseStroke} />
+          <line x1="286" y1="49" x2="296" y2="49" stroke={baseStroke} strokeWidth="1.2" />
+          <polygon points="296,49 291,46 291,52" fill={baseStroke} />
           {isAnimated && (
             <circle r="1.8" fill={signalGreen}>
-              <animate attributeName="cx" from="284" to="294" dur="1.6s" repeatCount="indefinite" />
-              <animate attributeName="cy" from="52" to="52" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cx" from="286" to="296" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cy" from="49" to="49" dur="1.6s" repeatCount="indefinite" />
             </circle>
           )}
 
           {/* 5. VERIFY */}
           <rect
-            x="296"
-            y="32"
-            width="58"
-            height="40"
+            x="298"
+            y="30"
+            width="56"
+            height="38"
             stroke={activeStep === 4 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 4 ? '1.8' : '1.2'}
             fill={activeStep === 4 ? 'rgba(0, 143, 58, 0.10)' : 'none'}
           />
           <text
-            x="325"
-            y="57"
+            x="326"
+            y="54"
             textAnchor="middle"
             fill={baseStroke}
-            fontSize="10"
-            fontFamily="JetBrains Mono"
+            fontSize="8.5"
+            fontFamily="'JetBrains Mono', monospace"
           >
             VERIFY
           </text>
 
           {/* Line down to Outcomes */}
-          <line x1="325" y1="72" x2="325" y2="88" stroke={baseStroke} strokeWidth="1.2" />
-          <polygon points="325,88 322,84 328,84" fill={baseStroke} />
+          <line x1="326" y1="68" x2="326" y2="84" stroke={baseStroke} strokeWidth="1.2" />
+          <polygon points="326,84 323,80 329,80" fill={baseStroke} />
 
           {/* Outcomes box under VERIFY */}
-          <g transform="translate(230, 122)">
+          <g transform="translate(226, 116)">
             <rect
               x="0"
               y="0"
-              width="124"
-              height="44"
+              width="128"
+              height="46"
               stroke={activeStep === 4 ? signalGreen : baseStroke}
               strokeWidth="1.2"
               fill={activeStep === 4 ? 'rgba(0, 143, 58, 0.08)' : 'none'}
             />
-            <text x="8" y="14" fill={baseStroke} fontSize="10" fontFamily="JetBrains Mono">
+            <text x="8" y="14" fill={baseStroke} fontSize="8" fontFamily="'JetBrains Mono', monospace">
               • CONFIRMED
             </text>
-            <text x="8" y="27" fill={mutedStroke} fontSize="10" fontFamily="JetBrains Mono">
+            <text x="8" y="27" fill={mutedStroke} fontSize="8" fontFamily="'JetBrains Mono', monospace">
               • NOT_REPRODUCED
             </text>
-            <text x="8" y="40" fill={mutedStroke} fontSize="10" fontFamily="JetBrains Mono">
+            <text x="8" y="40" fill={mutedStroke} fontSize="8" fontFamily="'JetBrains Mono', monospace">
               • INCONCLUSIVE
             </text>
           </g>
 
           {/* Footer note */}
-          <text x="6" y="182" fill={mutedStroke} fontSize="10" fontFamily="JetBrains Mono">
+          <text x="6" y="180" fill={mutedStroke} fontSize="8" fontFamily="'JetBrains Mono', monospace">
             DETERMINISTIC CAUSAL VERIFIER // AST EXTRACTOR &amp; REPLAY
           </text>
         </svg>
@@ -299,7 +297,7 @@ export const ProjectSchematicPreview: React.FC<ProjectSchematicPreviewProps> = (
       {type === 'vera' && (
         <svg
           viewBox="0 0 360 195"
-          className="h-full w-full"
+          className="w-full flex-1 min-h-0"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -309,51 +307,51 @@ export const ProjectSchematicPreview: React.FC<ProjectSchematicPreviewProps> = (
 
           {/* Context Store Box */}
           <rect
-            x="12"
-            y="28"
-            width="84"
-            height="52"
+            x="10"
+            y="26"
+            width="86"
+            height="54"
             stroke={activeStep === 0 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 0 ? '1.8' : '1.2'}
             fill={activeStep === 0 ? 'rgba(0, 143, 58, 0.10)' : 'none'}
           />
-          <text x="20" y="48" fill={baseStroke} fontSize="10" fontFamily="JetBrains Mono">
+          <text x="18" y="46" fill={baseStroke} fontSize="8.5" fontFamily="'JetBrains Mono', monospace">
             CTX_STORE
           </text>
-          <text x="20" y="65" fill={mutedStroke} fontSize="10" fontFamily="JetBrains Mono">
+          <text x="18" y="62" fill={mutedStroke} fontSize="7.5" fontFamily="'JetBrains Mono', monospace">
             IDEMPOTENT
           </text>
 
           {/* Arrow 1 */}
-          <line x1="96" y1="54" x2="130" y2="54" stroke={baseStroke} strokeWidth="1.2" />
-          <polygon points="130,54 124,50 124,58" fill={baseStroke} />
+          <line x1="96" y1="53" x2="128" y2="53" stroke={baseStroke} strokeWidth="1.2" />
+          <polygon points="128,53 122,49 122,57" fill={baseStroke} />
           {isAnimated && (
             <circle r="2" fill={signalGreen}>
-              <animate attributeName="cx" from="96" to="128" dur="1.6s" repeatCount="indefinite" />
-              <animate attributeName="cy" from="54" to="54" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cx" from="96" to="126" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cy" from="53" to="53" dur="1.6s" repeatCount="indefinite" />
             </circle>
           )}
 
           {/* Policy Scorer */}
           <rect
-            x="132"
-            y="20"
-            width="96"
-            height="68"
+            x="128"
+            y="18"
+            width="112"
+            height="70"
             stroke={activeStep === 1 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 1 ? '1.8' : '1.2'}
             fill={activeStep === 1 ? 'rgba(0, 143, 58, 0.10)' : 'none'}
           />
-          <text x="140" y="36" fill={baseStroke} fontSize="10" fontFamily="JetBrains Mono">
+          <text x="136" y="34" fill={baseStroke} fontSize="8" fontFamily="'JetBrains Mono', monospace">
             POLICY: 20/TICK
           </text>
           {Array.from({ length: 10 }).map((_, idx) => (
             <rect
               key={idx}
-              x={140 + (idx % 5) * 16}
-              y={44 + Math.floor(idx / 5) * 16}
-              width="11"
-              height="11"
+              x={136 + (idx % 5) * 18}
+              y={42 + Math.floor(idx / 5) * 16}
+              width="12"
+              height="12"
               stroke={activeStep === 1 ? signalGreen : baseStroke}
               fill={idx === 2 ? signalGreen : 'none'}
               strokeWidth="1"
@@ -361,39 +359,39 @@ export const ProjectSchematicPreview: React.FC<ProjectSchematicPreviewProps> = (
           ))}
 
           {/* Arrow 2 */}
-          <line x1="228" y1="54" x2="260" y2="54" stroke={baseStroke} strokeWidth="1.2" />
-          <polygon points="260,54 254,50 254,58" fill={baseStroke} />
+          <line x1="240" y1="53" x2="268" y2="53" stroke={baseStroke} strokeWidth="1.2" />
+          <polygon points="268,53 262,49 262,57" fill={baseStroke} />
           {isAnimated && (
             <circle r="2" fill={signalGreen}>
-              <animate attributeName="cx" from="228" to="258" dur="1.6s" repeatCount="indefinite" />
-              <animate attributeName="cy" from="54" to="54" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cx" from="240" to="266" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="cy" from="53" to="53" dur="1.6s" repeatCount="indefinite" />
             </circle>
           )}
 
           {/* Single CTA Box */}
           <rect
-            x="262"
-            y="28"
-            width="86"
-            height="52"
+            x="268"
+            y="26"
+            width="82"
+            height="54"
             stroke={activeStep === 2 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 2 ? '1.8' : '1.2'}
             fill={activeStep === 2 ? 'rgba(0, 143, 58, 0.10)' : 'none'}
           />
-          <text x="270" y="48" fill={baseStroke} fontSize="10" fontFamily="JetBrains Mono">
+          <text x="274" y="46" fill={baseStroke} fontSize="8.5" fontFamily="'JetBrains Mono', monospace">
             SINGLE_CTA
           </text>
-          <text x="270" y="65" fill={mutedStroke} fontSize="10" fontFamily="JetBrains Mono">
+          <text x="274" y="62" fill={mutedStroke} fontSize="7.5" fontFamily="'JetBrains Mono', monospace">
             HI/EN &lt;500ms
           </text>
 
           {/* Deterministic Signal Waveform */}
           <polyline
-            points="12,148 45,148 58,118 72,155 88,112 104,148 160,148 175,122 190,148 250,148 265,114 280,148 348,148"
+            points="10,144 45,144 58,116 72,152 88,110 104,144 160,144 175,120 190,144 250,144 265,112 280,144 350,144"
             stroke={activeStep === 3 ? signalGreen : baseStroke}
             strokeWidth={activeStep === 3 ? '1.8' : '1.2'}
           />
-          <text x="12" y="180" fill={mutedStroke} fontSize="10" fontFamily="JetBrains Mono">
+          <text x="10" y="178" fill={mutedStroke} fontSize="8" fontFamily="'JetBrains Mono', monospace">
             DETERMINISTIC FACT SELECTION // MAGICPIN FINALIST
           </text>
         </svg>

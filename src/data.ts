@@ -214,7 +214,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
     githubUrl: 'https://github.com/KripakaraMN15',
     location: 'Mangaluru, India (open to relocate)',
     status: 'Open to work ',
-    resumePdfUrl: '/assets/aistudio/KRIPAKARA_M_N_Resume_00322e20.pdf',
+    resumePdfUrl: '/assets/aistudio/KRIPAKARAMN_RESUME_c6946890.pdf',
     summary:
       'AI engineer with NLP and GenAI experience, including internships at Samsung R&D and CodeIO. Built a 3-model NLP ensemble reaching 98.48% accuracy for voice-command detection and multi-agent LLM systems (LangGraph, MCP, RAG). Skilled in Python, PyTorch, and Hugging Face, with a focus on secure, privacy-first, production-ready systems.',
     heroSummary:

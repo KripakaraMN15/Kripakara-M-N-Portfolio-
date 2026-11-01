@@ -111,12 +111,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       {
         id: 'action-download-resume',
         group: 'ACTIONS',
-        label: 'Download Resume (KRIPAKARA_M_N_Resume.pdf)',
+        label: 'Download Resume (KRIPAKARAMN_RESUME.pdf)',
         hint: 'DOWNLOAD ↓',
         action: () => {
           const a = document.createElement('a');
           a.href = PORTFOLIO_DATA.profile.resumePdfUrl;
-          a.download = 'KRIPAKARA_M_N_Resume.pdf';
+          a.download = 'KRIPAKARAMN_RESUME.pdf';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);

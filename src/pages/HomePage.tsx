@@ -269,57 +269,57 @@ Hi, I'm Kripakara, an Software engineer building multi-agent LLM systems and AI 
                   onFocus={() => setHoveredFeaturedSlug(project.slug)}
                   onBlur={() => setHoveredFeaturedSlug(null)}
                   aria-label={`Open case study for ${project.name}`}
-                  className="col-span-12 lg:col-span-6 border-b lg:border-b-0 lg:border-r last:border-r-0 border-[var(--hairline)] p-5 md:p-6 flex flex-col justify-between group bg-[var(--bg)] transition-colors duration-150 rounded-none cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] relative"
+                  className="col-span-12 lg:col-span-6 border-b lg:border-b-0 lg:border-r last:border-r-0 border-[var(--hairline)] p-4 sm:p-5 flex flex-col justify-between group bg-[var(--bg)] transition-colors duration-150 rounded-none cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] relative"
                   style={{
                     backgroundColor: isFeaturedHovered ? 'rgba(10, 10, 10, 0.03)' : 'var(--bg)',
                     boxShadow: isFeaturedHovered ? 'inset 0 0 0 2px #0A0A0A' : 'none',
                   }}
                 >
                   <div>
-                    {/* Top Row: Index + ★ FINALIST Tag */}
-                    <div className="flex items-center justify-between font-mono-tech text-[11px] sm:text-xs uppercase tracking-wider">
-                      <span className="text-[#55554F]">
-                        ({project.index})
-                      </span>
-                      <span className="font-mono-tech text-[11px] font-medium border border-[var(--fg)] px-1.5 py-0.5 uppercase rounded-none shrink-0 text-[var(--fg)] tracking-wider">
-                        ★ FINALIST
-                      </span>
+                    {/* Top Row: Index */}
+                    <div className="flex items-center justify-between font-mono-tech text-[11px] uppercase tracking-wider mb-1.5 text-[#55554F]">
+                      <span>({project.index})</span>
                     </div>
 
-                    {/* Schematic SVG in 16:9 1px hairline inset with proportional padding */}
-                    <div className="my-4 md:my-5 border border-[var(--hairline)] p-3 aspect-[16/9] w-full flex items-center justify-center bg-transparent">
+                    {/* Schematic SVG: Expanded to look prominently visible at top */}
+                    <div className="mb-3 w-full h-[180px] sm:h-[195px] md:h-[210px] flex items-center justify-center bg-transparent">
                       <ProjectSchematicPreview
                         type={project.previewType}
-                        className="w-full h-full border-0"
+                        className="w-full h-full"
                         isHovered={isFeaturedHovered}
                       />
                     </div>
 
-                    {/* Title */}
-                    <h3
-                      className="font-display text-[22px] md:text-[24px] font-semibold tracking-[-0.02em] leading-snug text-[#0A0A0A]"
-                      style={{
-                        textDecorationLine: isFeaturedHovered ? 'underline' : 'none',
-                        textDecorationThickness: '2px',
-                        textUnderlineOffset: '3px',
-                      }}
-                    >
-                      {project.name}
-                    </h3>
+                    {/* Title + FINALIST Tag */}
+                    <div className="flex items-center flex-wrap gap-2 sm:gap-2.5">
+                      <h3
+                        className="font-display text-[20px] md:text-[22px] font-semibold tracking-[-0.02em] leading-snug text-[#0A0A0A]"
+                        style={{
+                          textDecorationLine: isFeaturedHovered ? 'underline' : 'none',
+                          textDecorationThickness: '2px',
+                          textUnderlineOffset: '3px',
+                        }}
+                      >
+                        {project.name}
+                      </h3>
+                      <span className="font-mono-tech text-[10.5px] font-medium border border-[#0A0A0A] px-1.5 py-0.5 uppercase rounded-none shrink-0 text-[#0A0A0A] tracking-wider leading-none">
+                        ★ FINALIST
+                      </span>
+                    </div>
 
                     {/* Description */}
-                    <p className="mt-1.5 text-[13.5px] md:text-[14px] text-[#55554F] leading-normal line-clamp-2">
+                    <p className="mt-1 text-[13px] md:text-[13.5px] text-[#55554F] leading-normal line-clamp-2">
                       {project.tagline}
                     </p>
                   </div>
 
                   {/* Bottom Row: Stack Tags + Arrow */}
-                  <div className="mt-5 md:mt-6 pt-3 border-t border-[var(--hairline)] flex items-center justify-between font-mono-tech text-[11px] md:text-[12px]">
+                  <div className="mt-3.5 sm:mt-4 pt-2.5 border-t border-[var(--hairline)] flex items-center justify-between font-mono-tech text-[11px] md:text-[12px]">
                     <span className="text-[#55554F] truncate pr-4">
                       {project.stack.slice(0, 3).join(' · ')}
                     </span>
                     <span
-                      className="text-[20px] text-[#0A0A0A] shrink-0 transition-transform duration-150 motion-reduce:transform-none"
+                      className="text-[18px] text-[#0A0A0A] shrink-0 transition-transform duration-150 motion-reduce:transform-none"
                       style={{
                         transform: isFeaturedHovered ? 'translate(3px, -3px)' : 'translate(0, 0)',
                       }}

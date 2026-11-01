@@ -193,6 +193,18 @@ export const AboutPage: React.FC = () => {
               <div>EMAIL: {PORTFOLIO_DATA.profile.email}</div>
               <div>GITHUB: {PORTFOLIO_DATA.profile.github}</div>
             </div>
+
+            <div className="mt-4 pt-4 border-t border-[var(--hairline)]">
+              <a
+                href={PORTFOLIO_DATA.profile.resumePdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full border border-[var(--fg)] bg-[var(--fg)] text-[var(--bg)] px-4 py-2.5 font-mono-tech text-xs uppercase tracking-widest hover:opacity-85 transition-opacity flex items-center justify-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                <span>VIEW RESUME PDF</span>
+                <span>↗</span>
+              </a>
+            </div>
           </div>
         </aside>
       </div>

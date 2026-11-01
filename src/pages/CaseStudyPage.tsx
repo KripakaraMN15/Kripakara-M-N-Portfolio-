@@ -61,8 +61,8 @@ export const CaseStudyPage: React.FC = () => {
       </div>
 
       <header className="border-b border-[var(--hairline)] px-4 py-10 md:px-8 md:py-16">
-        <div className="grid grid-cols-12 gap-8 items-end">
-          <div className={`col-span-12 ${hasScreenshot ? 'lg:col-span-7' : 'lg:col-span-8'}`}>
+        <div className={`grid grid-cols-12 gap-8 ${hasScreenshot ? 'items-end' : 'items-center'}`}>
+          <div className={`col-span-12 ${hasScreenshot ? 'lg:col-span-7' : 'lg:col-span-5'}`}>
             <div className="font-mono-tech text-xs uppercase tracking-widest text-[#55554F] mb-3">
               CASE STUDY ({project.index}) {project.badge ? `· ${project.badge.formatted}` : project.recognition ? `· ★ ${project.recognition}` : ''}
             </div>
@@ -111,7 +111,7 @@ export const CaseStudyPage: React.FC = () => {
             )}
           </div>
 
-          <div className={`col-span-12 ${hasScreenshot ? 'lg:col-span-5' : 'lg:col-span-4'}`}>
+          <div className={`col-span-12 ${hasScreenshot ? 'lg:col-span-5' : 'lg:col-span-7'}`}>
             {hasScreenshot ? (
               <div className="w-full">
                 <a
@@ -152,10 +152,12 @@ export const CaseStudyPage: React.FC = () => {
                 )}
               </div>
             ) : (
-              <ProjectSchematicPreview
-                type={project.previewType}
-                className="h-[220px] w-full"
-              />
+              <div className="w-full">
+                <ProjectSchematicPreview
+                  type={project.previewType}
+                  className="h-[340px] sm:h-[420px] md:h-[480px] lg:h-[520px] xl:h-[560px] w-full"
+                />
+              </div>
             )}
           </div>
         </div>
@@ -200,7 +202,7 @@ export const CaseStudyPage: React.FC = () => {
                 </div>
                 <ProjectSchematicPreview
                   type={project.previewType}
-                  className="h-[220px] sm:h-[260px] w-full border-0"
+                  className="h-[280px] sm:h-[340px] md:h-[400px] w-full border-0"
                 />
               </div>
             )}
