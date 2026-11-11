@@ -244,7 +244,7 @@ Hi, I'm Kripakara, an Software engineer building multi-agent LLM systems and AI 
       <section aria-label="Selected Work" className="border-b border-[var(--hairline)]">
         <div className="flex items-center justify-between px-4 py-4 md:px-8 border-b border-[var(--hairline)]">
           <div className="font-mono-tech text-xs uppercase tracking-widest text-[#55554F]">
-            (02) SELECTED WORK // 05 CASE STUDIES
+            (02) SELECTED WORK // {String(PORTFOLIO_DATA.projects.length).padStart(2, '0')} CASE STUDIES
           </div>
           <Link
             to="/work"

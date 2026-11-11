@@ -33,7 +33,41 @@ const ProjectCardPreview: React.FC<{ project: ProjectCaseStudy; className?: stri
   return <ProjectSchematicPreview type={project.previewType} className={className} />;
 };
 
+const FILTER_CHIPS = ['ALL', 'Python', 'FastAPI', 'RAG / NLP', 'AWS'] as const;
+type FilterChip = (typeof FILTER_CHIPS)[number];
+
 export const WorkPage: React.FC = () => {
+  const [selectedTag, setSelectedTag] = useState<FilterChip>('ALL');
+
+  const filteredProjects = PORTFOLIO_DATA.projects.filter((project) => {
+    if (selectedTag === 'ALL') return true;
+    if (selectedTag === 'AWS') {
+      return (
+        project.tags?.includes('AWS') ||
+        project.slug === 'veridian'
+      );
+    }
+    if (selectedTag === 'Python') {
+      return (
+        project.tags?.includes('Python') ||
+        project.stack.some((s) => s.toLowerCase().includes('python'))
+      );
+    }
+    if (selectedTag === 'FastAPI') {
+      return (
+        project.tags?.includes('FastAPI') ||
+        project.stack.some((s) => s.toLowerCase().includes('fastapi'))
+      );
+    }
+    if (selectedTag === 'RAG / NLP') {
+      return (
+        project.tags?.some((t) => t.includes('RAG') || t.includes('NLP')) ||
+        project.stack.some((s) => s.includes('RAG') || s.includes('Embeddings'))
+      );
+    }
+    return true;
+  });
+
   return (
     <div className="mx-auto max-w-[1440px] border-x border-[var(--hairline)]">
       <section className="border-b border-[var(--hairline)] px-4 py-12 md:px-8 md:py-16">
@@ -52,8 +86,31 @@ export const WorkPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Filter Chips Bar */}
+      <section className="border-b border-[var(--hairline)] px-4 py-3 md:px-8 bg-[var(--surface-hover)]">
+        <div className="flex flex-wrap items-center gap-2 font-mono-tech text-xs">
+          <span className="text-[#55554F] uppercase tracking-wider mr-2">FILTER:</span>
+          {FILTER_CHIPS.map((chip) => {
+            const isSelected = selectedTag === chip;
+            return (
+              <button
+                key={chip}
+                onClick={() => setSelectedTag(chip)}
+                className={`px-3 py-1 text-xs uppercase tracking-wider border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                  isSelected
+                    ? 'border-[var(--fg)] bg-[var(--fg)] text-[var(--bg)] font-medium'
+                    : 'border-[var(--hairline)] bg-[var(--bg)] text-[#55554F] hover:text-[var(--fg)] hover:border-[var(--fg)]'
+                }`}
+              >
+                {chip}
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
       <section aria-label="Project Index">
-        <ProjectListRows projects={PORTFOLIO_DATA.projects} />
+        <ProjectListRows projects={filteredProjects} />
       </section>
 
       <section className="px-4 py-12 md:px-8">
@@ -61,7 +118,7 @@ export const WorkPage: React.FC = () => {
           (02) ARCHITECTURAL SCHEMATICS // B&amp;W VECTOR PREVIEWS
         </div>
         <div className="grid grid-cols-12 gap-6">
-          {PORTFOLIO_DATA.projects.map((project, idx, arr) => {
+          {filteredProjects.map((project, idx, arr) => {
             const isLastOdd = idx === arr.length - 1 && arr.length % 2 !== 0;
             return (
               <div

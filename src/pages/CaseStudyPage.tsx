@@ -25,7 +25,10 @@ export const CaseStudyPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     setImgError(false);
-  }, [slug]);
+    if (project) {
+      document.title = `${project.shortTitle || project.name} — Kripakara M. N.`;
+    }
+  }, [slug, project]);
 
   if (!project) {
     return <Navigate to="/work" replace />;
@@ -57,7 +60,7 @@ export const CaseStudyPage: React.FC = () => {
             ({project.index}) {project.slug.toUpperCase()}
           </span>
         </div>
-        {project.year && <div>YEAR // {project.date || project.year}</div>}
+        {(project.date || project.year) && <div>YEAR // {project.date || project.year}</div>}
       </div>
 
       <header className="border-b border-[var(--hairline)] px-4 py-10 md:px-8 md:py-16">
@@ -74,37 +77,54 @@ export const CaseStudyPage: React.FC = () => {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              {project.liveUrl && (
-                <div className="flex flex-wrap items-center gap-3">
+              {project.liveUrl ? (
+                <>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Open ${project.name} live demo in a new tab`}
+                      className="border border-[var(--fg)] bg-[var(--fg)] text-[var(--bg)] px-5 py-2.5 font-mono-tech text-xs uppercase tracking-widest hover:opacity-85 transition-opacity inline-flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                    >
+                      VIEW LIVE DEMO ↗
+                    </a>
+                    {project.liveUrlHint && (
+                      <span className="font-mono-tech text-[11px] text-[#55554F]">
+                        {project.liveUrlHint}
+                      </span>
+                    )}
+                  </div>
+
                   <a
-                    href={project.liveUrl}
+                    href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Open ${project.name} live demo in a new tab`}
-                    className="border border-[var(--fg)] bg-[var(--fg)] text-[var(--bg)] px-5 py-2.5 font-mono-tech text-xs uppercase tracking-widest hover:opacity-85 transition-opacity inline-flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                    aria-label={`Open ${project.name} source code on GitHub in a new tab`}
+                    className="border border-[var(--hairline)] px-5 py-2.5 font-mono-tech text-xs uppercase tracking-widest text-[var(--fg)] hover:border-[var(--fg)] transition-colors inline-flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                   >
-                    VIEW LIVE DEMO ↗
+                    VIEW SOURCE ON GITHUB ↗
                   </a>
-                  {project.liveUrlHint && (
-                    <span className="font-mono-tech text-[11px] text-[#55554F]">
-                      {project.liveUrlHint}
-                    </span>
-                  )}
-                </div>
+                </>
+              ) : (
+                <a
+                  href={project.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open ${project.name} source code on GitHub in a new tab`}
+                  className="border border-[var(--fg)] bg-[var(--fg)] text-[var(--bg)] px-5 py-2.5 font-mono-tech text-xs uppercase tracking-widest hover:opacity-85 transition-opacity inline-flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                >
+                  VIEW SOURCE ON GITHUB ↗
+                </a>
               )}
-
-              <a
-                href={project.repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Open ${project.name} source code on GitHub in a new tab`}
-                className="border border-[var(--hairline)] px-5 py-2.5 font-mono-tech text-xs uppercase tracking-widest text-[var(--fg)] hover:border-[var(--fg)] transition-colors inline-flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-              >
-                VIEW SOURCE ON GITHUB ↗
-              </a>
             </div>
 
-            {project.publicDemoNote && (
+            {!project.liveUrl && (
+              <div className="mt-4 font-mono-tech text-xs text-[#55554F]">
+                {project.publicDemoNote || 'No public demo. Source and write-up on GitHub.'}
+              </div>
+            )}
+            {project.liveUrl && project.publicDemoNote && (
               <div className="mt-4 font-mono-tech text-xs text-[#55554F]">
                 {project.publicDemoNote}
               </div>
@@ -162,6 +182,44 @@ export const CaseStudyPage: React.FC = () => {
           </div>
         </div>
       </header>
+
+      {/* Quick-Facts Strip */}
+      <section className="border-b border-[var(--hairline)] px-4 py-4 md:px-8 bg-[var(--surface-hover)]">
+        <div className={`grid grid-cols-2 ${(project.date || project.year) ? 'md:grid-cols-4' : 'md:grid-cols-3'} gap-4 font-mono-tech text-xs`}>
+          <div>
+            <div className="text-[#55554F] uppercase tracking-wider mb-1">STACK</div>
+            <div className="text-[var(--fg)] truncate font-medium" title={project.stack.join(', ')}>
+              {project.stack.slice(0, 3).join(', ')}
+              {project.stack.length > 3 ? ` +${project.stack.length - 3}` : ''}
+            </div>
+          </div>
+          <div>
+            <div className="text-[#55554F] uppercase tracking-wider mb-1">RESULT</div>
+            <div className="text-[var(--fg)] font-medium">
+              {project.quickResult || (project.results[0] ? `${project.results[0].value} ${project.results[0].label}` : '—')}
+            </div>
+          </div>
+          {(project.date || project.year) && (
+            <div>
+              <div className="text-[#55554F] uppercase tracking-wider mb-1">PERIOD</div>
+              <div className="text-[var(--fg)] font-medium">
+                {(project.date || project.year)?.toUpperCase()}
+              </div>
+            </div>
+          )}
+          <div>
+            <div className="text-[#55554F] uppercase tracking-wider mb-1">SOURCE</div>
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--fg)] underline hover:opacity-75 transition-opacity truncate block font-medium"
+            >
+              {getDisplayDomain(project.repoUrl)} ↗
+            </a>
+          </div>
+        </div>
+      </section>
 
       <section className="grid grid-cols-12 border-b border-[var(--hairline)]">
         <div className="col-span-12 lg:col-span-6 border-b lg:border-b-0 lg:border-r border-[var(--hairline)] p-6 md:p-10">
@@ -339,13 +397,58 @@ export const CaseStudyPage: React.FC = () => {
         </section>
       )}
 
-      {/* (05) Design Decisions */}
+      {/* (05) Delivery & CI/CD */}
+      {project.delivery && project.delivery.length > 0 && (
+        <section className="border-b border-[var(--hairline)] p-6 md:p-10">
+          <div className="grid grid-cols-12 gap-8">
+            <div className="col-span-12 lg:col-span-3">
+              <div className="font-mono-tech text-xs uppercase tracking-widest text-[#55554F]">
+                (05) DELIVERY &amp; CI/CD
+              </div>
+              <p className="mt-2 font-mono-tech text-xs text-[#55554F] leading-relaxed">
+                Automated continuous deployment pipeline to AWS with temporary credentials.
+              </p>
+            </div>
+
+            <div className="col-span-12 lg:col-span-9 divide-y divide-[var(--hairline)] border border-[var(--hairline)]">
+              {project.delivery.map((stage, idx) => {
+                const colonIndex = stage.indexOf(':');
+                const hasLabel = colonIndex > 0 && colonIndex < 20;
+                const label = hasLabel ? stage.slice(0, colonIndex) : null;
+                const body = hasLabel ? stage.slice(colonIndex + 1).trim() : stage;
+
+                return (
+                  <div key={idx} className="grid grid-cols-12 gap-4 p-5 md:p-6">
+                    <div className="col-span-2 sm:col-span-1 font-mono-tech text-xs text-[#55554F]">
+                      0{idx + 1}.
+                    </div>
+                    <div className="col-span-10 sm:col-span-11 text-base leading-relaxed text-[var(--fg)]">
+                      {label ? (
+                        <div>
+                          <span className="font-mono-tech text-xs font-semibold uppercase tracking-wider text-[var(--fg)] mr-2">
+                            [{label}]
+                          </span>
+                          <span>{body}</span>
+                        </div>
+                      ) : (
+                        stage
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Design Decisions */}
       {project.designDecisions && project.designDecisions.length > 0 && (
         <section className="border-b border-[var(--hairline)] p-6 md:p-10">
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-12 lg:col-span-3">
               <div className="font-mono-tech text-xs uppercase tracking-widest text-[#55554F]">
-                (05) DESIGN DECISIONS
+                {project.delivery?.length ? '(06)' : '(05)'} DESIGN DECISIONS
               </div>
               <p className="mt-2 font-mono-tech text-xs text-[#55554F] leading-relaxed">
                 Core design rules and architectural boundaries.
@@ -371,7 +474,7 @@ export const CaseStudyPage: React.FC = () => {
       {/* Results & Metrics */}
       <section className="border-b border-[var(--hairline)]">
         <div className="border-b border-[var(--hairline)] px-6 py-4 md:px-10 font-mono-tech text-xs uppercase tracking-widest text-[#55554F]">
-          (06) RESULTS &amp; BENCHMARKS
+          {project.delivery?.length ? (project.designDecisions?.length ? '(07)' : '(06)') : (project.designDecisions?.length ? '(06)' : '(05)')} RESULTS &amp; BENCHMARKS
         </div>
         <div className="overflow-hidden">
           <div
@@ -517,16 +620,18 @@ export const CaseStudyPage: React.FC = () => {
               </a>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              {project.links.screenshots.map((shot, idx) => (
-                <div
-                  key={idx}
-                  className="border border-dashed border-[var(--hairline)] p-4 text-[#55554F]"
-                >
-                  {shot}
-                </div>
-              ))}
-            </div>
+            {project.links.screenshots && project.links.screenshots.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                {project.links.screenshots.map((shot, idx) => (
+                  <div
+                    key={idx}
+                    className="border border-dashed border-[var(--hairline)] p-4 text-[#55554F]"
+                  >
+                    {shot}
+                  </div>
+                ))}
+              </div>
+            )}
 
             {project.linksNote && (
               <div className="border border-[var(--hairline)] p-4 text-[#55554F] text-xs font-mono-tech leading-relaxed">

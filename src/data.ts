@@ -22,6 +22,9 @@ import {
   SiGit,
   SiDocker,
   SiPostman,
+  SiRedis,
+  SiLinux,
+  SiGithubactions,
 } from 'react-icons/si';
 import { FaAws } from 'react-icons/fa';
 
@@ -130,13 +133,15 @@ export interface ProjectCaseStudy {
   links: {
     liveDemo?: string;
     repository: string;
-    screenshots: string[];
+    screenshots?: string[];
   };
-  previewType: 'contractbreaker' | 'vera' | 'billara' | 'livedataviz' | 'tripbuddy';
+  previewType: 'contractbreaker' | 'vera' | 'veridian' | 'billara' | 'livedataviz' | 'tripbuddy';
   screenshot?: string;
   screenshotAlt?: string;
   screenshotLink?: string;
   featured?: boolean;
+  delivery?: string[];
+  quickResult?: string;
 }
 
 export interface ExperienceCommit {
@@ -216,7 +221,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
     status: 'Open to work ',
     resumePdfUrl: '/assets/aistudio/KRIPAKARAMN_RESUME_c6946890.pdf',
     summary:
-      'AI engineer with NLP and GenAI experience, including internships at Samsung R&D and CodeIO. Built a 3-model NLP ensemble reaching 98.48% accuracy for voice-command detection and multi-agent LLM systems (LangGraph, MCP, RAG). Skilled in Python, PyTorch, and Hugging Face, with a focus on secure, privacy-first, production-ready systems.',
+      'Software engineer with internship experience at Samsung R&D and CodeIO. Built an NLP ensemble reaching 98.48% accuracy for voice-command detection and a full-stack platform serving 5,500+ students, cutting administrative effort by ~60%. Skilled in Python, React, Node.js, RAG and multi-agent LLM systems.',
     heroSummary:
       'AI engineer building multi-agent LLM systems and production NLP. Previously at Samsung R&D. Focused on secure, Full-Stack systems.',
   },
@@ -289,20 +294,6 @@ export const PORTFOLIO_DATA: PortfolioData = {
       ],
     },
     {
-      category: 'AI / ML',
-      codeKey: 'ai_ml',
-      items: [
-        { name: 'LLM Integration' },
-        { name: 'RAG' },
-        { name: 'Multi-Agent Systems' },
-        { name: 'LangGraph', icon: SiLanggraph },
-        { name: 'PyTorch', icon: SiPytorch },
-        { name: 'Hugging Face', icon: SiHuggingface },
-        { name: 'LangSmith', icon: SiLangsmith },
-        { name: 'NLP' },
-      ],
-    },
-    {
       category: 'Web',
       codeKey: 'web',
       items: [
@@ -316,23 +307,48 @@ export const PORTFOLIO_DATA: PortfolioData = {
       ],
     },
     {
-      category: 'Databases',
-      codeKey: 'databases',
+      category: 'Databases and Cloud',
+      codeKey: 'databases_cloud',
       items: [
         { name: 'MongoDB', icon: SiMongodb },
         { name: 'PostgreSQL', icon: SiPostgresql },
-        { name: 'Firebase (Auth, Firestore)', icon: SiFirebase },
+        { name: 'Firebase', icon: SiFirebase },
+        { name: 'Redis', icon: SiRedis },
+        { name: 'BullMQ' },
+        { name: 'Docker', icon: SiDocker },
+        { name: 'AWS', icon: FaAws },
+        { name: 'Git', icon: SiGit },
+        { name: 'CI/CD' },
+        { name: 'Linux', icon: SiLinux },
+        { name: 'Cursor', icon: SiCursor },
+        { name: 'GitHub Actions', icon: SiGithubactions },
       ],
     },
     {
-      category: 'Tools / Cloud',
-      codeKey: 'tools_cloud',
+      category: 'AI / ML',
+      codeKey: 'ai_ml',
       items: [
-        { name: 'Git', icon: SiGit },
-        { name: 'Docker', icon: SiDocker },
-        { name: 'AWS', icon: FaAws },
-        { name: 'Postman', icon: SiPostman },
-        { name: 'Cursor', icon: SiCursor },
+        { name: 'LLM Integration' },
+        { name: 'RAG' },
+        { name: 'Multi-Agent Systems' },
+        { name: 'LangGraph', icon: SiLanggraph },
+        { name: 'LangChain', icon: SiLangchain },
+        { name: 'PyTorch', icon: SiPytorch },
+        { name: 'Hugging Face', icon: SiHuggingface },
+        { name: 'NLP' },
+        { name: 'Amazon Bedrock' },
+        { name: 'Pinecone' },
+      ],
+    },
+    {
+      category: 'Core CS',
+      codeKey: 'core_cs',
+      items: [
+        { name: 'DSA (500+ problems on GeeksforGeeks and NeetCode)' },
+        { name: 'OOP' },
+        { name: 'DBMS' },
+        { name: 'Operating Systems' },
+        { name: 'Computer Networks' },
       ],
     },
   ],
@@ -674,28 +690,198 @@ export const PORTFOLIO_DATA: PortfolioData = {
     {
       order: 3,
       index: '03',
+      slug: 'veridian',
+      name: 'Veridian Enterprise RAG Assistant',
+      shortTitle: 'Veridian',
+      tagline:
+        'An enterprise knowledge assistant that answers from uploaded documents with cited sources, guardrails and a human-review queue, delivered to AWS by an automated CI/CD pipeline.',
+      listDescription:
+        'Enterprise RAG assistant: LangGraph, AWS Bedrock, Pinecone, deployed with GitHub Actions CI/CD.',
+      date: 'Jun 2026',
+      year: '2026',
+      featured: false,
+      tags: ['Python', 'FastAPI', 'RAG / NLP', 'AWS'],
+      stack: [
+        'Python',
+        'FastAPI',
+        'LangGraph',
+        'Amazon Bedrock',
+        'Pinecone',
+        'PostgreSQL',
+        'Docker',
+        'GitHub Actions',
+        'Amazon S3',
+        'ECR',
+        'EC2',
+      ],
+      quickResult: '6-turn conversation memory',
+      bullets: [
+        'Enterprise knowledge assistant answering natural-language questions over uploaded organizational documents using RAG.',
+        'Combines FastAPI, LangGraph workflow, Amazon Bedrock models, Pinecone vector search, and PostgreSQL conversation history.',
+        'Automated CI/CD pipeline with GitHub Actions OIDC pushing container images to ECR and deploying to EC2.',
+      ],
+      overview:
+        'Veridian is an enterprise knowledge assistant that answers natural-language questions over uploaded organizational documents using retrieval-augmented generation. It combines a FastAPI backend, a LangGraph workflow, Amazon Bedrock models, Pinecone vector search and PostgreSQL-backed conversation history, with a lightweight web interface. It is a reference implementation.',
+      problem:
+        'Answers over internal documents have to be grounded in the source, remember the conversation, resist unsafe requests, and route sensitive requests to a person. And a demo is only useful if it can be shipped repeatably.',
+      approach: [
+        'UPLOAD: The browser uploads files directly to a private S3 bucket using presigned URLs.',
+        'INGEST: Documents are chunked, embedded with Titan Text Embeddings V2 (1,024 dimensions) and indexed in Pinecone.',
+        'RETRIEVE: A LangGraph workflow retrieves relevant chunks and reuses recent conversation history for follow-ups.',
+        'GENERATE: Amazon Nova Lite on Bedrock writes the answer with source citations.',
+        'GUARD: Deterministic input and output checks run around the model; selected sensitive requests go to an approval queue.',
+        'RECORD: Conversations, feedback, approvals and audit events are stored in PostgreSQL.',
+      ],
+      delivery: [
+        'PUSH: A commit to main triggers GitHub Actions.',
+        'BUILD: The image is built and tagged with the commit SHA.',
+        'PUBLISH: GitHub authenticates to AWS with OIDC (temporary credentials) and pushes to ECR.',
+        'DEPLOY: A self-hosted runner on EC2 pulls that exact image and replaces the running container.',
+      ],
+      designDecisions: [
+        {
+          title: 'Grounded or silent.',
+          detail:
+            'Questions the documents do not answer return an explicit "I cannot find this in the uploaded documents" rather than an educated guess.',
+        },
+        {
+          title: 'Presigned uploads.',
+          detail:
+            'Large files never touch the FastAPI application server, keeping memory usage flat regardless of upload size.',
+        },
+        {
+          title: 'OIDC over long-lived keys.',
+          detail:
+            'GitHub Actions exchanges a short-lived OIDC token with AWS IAM, eliminating stored AWS secret keys in repository secrets.',
+        },
+      ],
+      traceTotalMs: '7-stage pipeline (no timings)',
+      traceNote:
+        'LangGraph execution timeline showing question answering with guardrails and audit recording.',
+      trace: [
+        {
+          step: '01',
+          node: 'gateway.receive_question',
+          type: 'INGEST',
+          detail: 'Question received at FastAPI endpoint and validated.',
+          io: {
+            input: 'user_question, session_id',
+            output: 'validated_request',
+          },
+        },
+        {
+          step: '02',
+          node: 'memory.load_history',
+          type: 'RETRIEVE',
+          detail: 'Loads up to 6 turns of conversation history from PostgreSQL.',
+          io: {
+            input: 'session_id',
+            output: 'conversation_history[<=6]',
+          },
+        },
+        {
+          step: '03',
+          node: 'vector.retrieve_pinecone',
+          type: 'RETRIEVE',
+          detail: 'Retrieves relevant document chunks from Pinecone vector index.',
+          io: {
+            input: 'embedded_query, filter',
+            output: 'top_k_chunks[]',
+          },
+        },
+        {
+          step: '04',
+          node: 'bedrock.generate_answer',
+          type: 'SYNTHESIZE',
+          detail: 'Amazon Nova Lite writes answer with explicit source citations.',
+          io: {
+            input: 'chunks, history, prompt',
+            output: 'draft_answer, citations[]',
+          },
+        },
+        {
+          step: '05',
+          node: 'guardrails.verify_checks',
+          type: 'GUARD',
+          detail: 'Deterministic input/output checks; sensitive requests routed to approval queue.',
+          io: {
+            input: 'draft_answer',
+            output: 'passed=true | queued_for_approval',
+          },
+        },
+        {
+          step: '06',
+          node: 'dispatch.return_response',
+          type: 'DISPATCH',
+          detail: 'Answer and citations returned to client.',
+          io: {
+            input: 'validated_answer, citations[]',
+            output: 'response_json',
+          },
+        },
+        {
+          step: '07',
+          node: 'audit.write_event',
+          type: 'EVALUATE',
+          detail: 'Audit event and conversation turn written to PostgreSQL.',
+          io: {
+            input: 'turn_metadata, audit_log',
+            output: 'event_recorded=true',
+          },
+        },
+      ],
+      results: [
+        {
+          value: '6 Turns',
+          label: 'Conversation Memory',
+          detail: 'Reuses recent conversation context from PostgreSQL for follow-ups.',
+        },
+        {
+          value: 'OIDC',
+          label: 'AWS Authentication',
+          detail: 'Zero long-lived keys: short-lived IAM credentials for GitHub Actions to ECR.',
+        },
+        {
+          value: 'Titan V2',
+          label: 'Bedrock Embeddings',
+          detail: '1,024-dimension embeddings indexed into Pinecone vector storage.',
+        },
+      ],
+      repoUrl: 'https://github.com/KripakaraMN15/Veridian-Enterprise-AI',
+      links: {
+        repository: 'https://github.com/KripakaraMN15/Veridian-Enterprise-AI',
+      },
+      previewType: 'veridian',
+      screenshot: '/projects/veridian.png',
+      screenshotAlt: 'Veridian Enterprise RAG Assistant',
+      screenshotLink: 'https://github.com/KripakaraMN15/Veridian-Enterprise-AI',
+    },
+    {
+      order: 4,
+      index: '04',
       slug: 'billara-ai',
       name: 'BillaraAI Smart Invoice Generator',
       shortTitle: 'BillaraAI',
       tagline:
         'Full-stack AI invoicing platform converting text and audio briefs into structured invoices, cutting creation time by ~65%.',
-      listDescription: 'AI invoicing from text and audio briefs',
-      year: '2025',
+      listDescription: 'AI invoicing from typed or voice briefs.',
+      year: '2026',
+      date: 'Mar 2026',
       tags: ['React', 'TypeScript', 'Gemini'],
-      stack: ['React', 'TypeScript', 'Firebase (Auth & Firestore)', 'Resend API', 'Gemini'],
+      stack: ['React', 'TypeScript', 'Firebase (Auth & Firestore)', 'Redis', 'BullMQ', 'Gemini'],
       bullets: [
         'Full-stack AI invoicing platform converting text and audio briefs into structured invoices in seconds, cutting creation time by ~65%.',
-        'Secure backend with server-side API proxying, Firestore RBAC rules, and rate limiting.',
-        'Real-time dashboard with penalty calculation, email dispatch, and PDF export.',
+        'Secure backend with Firebase Auth, Firestore invoice ownership rules, and Redis rate limiting.',
+        'Asynchronous BullMQ job queue for heavy invoice processing, real-time penalty calculation, and PDF export.',
       ],
       overview:
-        'BillaraAI is a full-stack AI invoicing platform built with React, TypeScript, Firebase (Auth & Firestore), Resend API, and Gemini. It converts unstructured text and audio briefs into structured invoices in seconds, cutting invoice creation time by ~65%.',
+        'BillaraAI is a full-stack AI invoicing platform built with React, TypeScript, Firebase (Auth & Firestore), Redis, BullMQ, and Gemini. It converts typed or voice briefs into structured invoices in seconds, cutting invoice creation time by ~65%.',
       problem:
-        'Manual invoice drafting from client notes or voice briefs is repetitive and slow, while client-side AI integrations risk exposing API credentials or bypassing access rules when managing billing records, overdue penalties, and transactional email delivery.',
+        'Manual invoice drafting from client notes or voice briefs is repetitive and slow, while client-side AI integrations risk exposing API credentials or bypassing access rules when managing billing records and overdue penalties.',
       approach: [
         'Built a multimodal extraction workflow powered by Gemini that parses raw text and audio briefs into structured invoice line items, taxes, and client metadata in seconds.',
-        'Hardened the backend architecture with server-side API proxying, strict Firestore RBAC security rules, and request rate limiting.',
-        'Implemented a real-time dashboard supporting automated penalty calculation, transactional email dispatch via Resend API, and formatted PDF export.',
+        'Hardened the backend with Firebase Auth session verification, strict Firestore rules enforcing user invoice ownership, and Redis sliding-window rate limiting.',
+        'Implemented asynchronous background job processing with BullMQ workers for heavy invoice operations, real-time penalty calculation, and formatted PDF export.',
       ],
       traceTotalMs: '1,180ms (simulated pipeline trace)',
       traceNote: 'Simulated LangSmith-style execution timeline illustrating the brief-to-invoice pipeline.',
@@ -705,7 +891,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
           node: 'edge_proxy.rate_limit_and_rbac',
           type: 'GUARD',
           durationMs: 42,
-          detail: 'Verifies Firebase Auth session, Firestore RBAC permissions, and per-user rate limit.',
+          detail: 'Verifies Firebase Auth session, user invoice ownership, and Redis sliding-window rate limit.',
           io: {
             input: 'auth_token, brief_payload (text | audio)',
             output: 'session_verified=true, quota_ok=true',
@@ -724,10 +910,10 @@ export const PORTFOLIO_DATA: PortfolioData = {
         },
         {
           step: '03',
-          node: 'firestore_ledger.compute_penalties',
+          node: 'firestore_ledger.enforce_ownership_penalties',
           type: 'EVALUATE',
           durationMs: 118,
-          detail: 'Persists invoice document under Firestore RBAC rules and evaluates real-time penalty rules.',
+          detail: 'Persists invoice document under Firestore ownership rules and computes overdue penalty rules.',
           io: {
             input: 'structured_invoice, penalty_policy',
             output: 'ledger_doc_id, computed_totals',
@@ -735,13 +921,13 @@ export const PORTFOLIO_DATA: PortfolioData = {
         },
         {
           step: '04',
-          node: 'dispatch.pdf_and_resend_email',
+          node: 'bullmq_worker.dispatch_and_pdf',
           type: 'DISPATCH',
           durationMs: 130,
-          detail: 'Generates downloadable PDF export and dispatches invoice notification via Resend API.',
+          detail: 'BullMQ worker generates formatted PDF export and completes invoice job processing.',
           io: {
             input: 'ledger_doc_id, recipient_email',
-            output: 'pdf_ready=true, email_dispatched=true',
+            output: 'pdf_ready=true, job_completed=true',
           },
         },
       ],
@@ -749,17 +935,17 @@ export const PORTFOLIO_DATA: PortfolioData = {
         {
           value: '~65%',
           label: 'Faster Invoice Creation',
-          detail: 'Converts text and audio briefs into structured invoices in seconds.',
+          detail: 'Converts typed and voice briefs into structured invoices in seconds.',
         },
         {
           value: 'RBAC',
           label: 'Zero Client Key Exposure',
-          detail: 'Secured via server-side API proxying, Firestore RBAC rules, and rate limiting.',
+          detail: 'Secured via Firebase Auth, Firestore ownership rules, and Redis rate limiting.',
         },
         {
-          value: 'Real-Time',
-          label: 'Billing Operations',
-          detail: 'Integrated penalty calculation, Resend API email dispatch, and PDF export.',
+          value: 'BullMQ',
+          label: 'Job Queue Workers',
+          detail: 'Asynchronous task queue for heavy invoice processing and PDF export.',
         },
       ],
       liveUrl: 'https://billaraai-166180432228.asia-southeast1.run.app/',
@@ -779,113 +965,6 @@ export const PORTFOLIO_DATA: PortfolioData = {
       featured: false,
     },
     {
-      order: 4,
-      index: '04',
-      slug: 'live-data-viz',
-      name: 'LiveDataViz — Conversational Data Visualization',
-      shortTitle: 'LiveDataViz',
-      tagline:
-        'NL2Code engine translating user queries into Vega-Lite schemas with Hybrid RAG and zero-data-retention TTL cleanup.',
-      listDescription: 'Natural-language to Vega-Lite charts with hybrid RAG',
-      year: '2025',
-      tags: ['React', 'RAG', 'Vega-Lite'],
-      stack: ['React.js', 'JavaScript', 'RAG', 'BM25', 'Gemini Embeddings', 'Vega-Lite'],
-      bullets: [
-        'NL2Code engine translating user queries into Vega-Lite schemas, reducing chart creation time by ~80%.',
-        'Hybrid RAG (Gemini Embeddings + BM25) retrieving dataset statistics, categorical values, and sample records to ground LLM-generated charts.',
-        'Vector store with automatic 30-minute TTL cleanup and explicit session deletion (zero-data-retention architecture).',
-      ],
-      overview:
-        'LiveDataViz is a conversational data visualization system built with React.js, JavaScript, Hybrid RAG (Gemini Embeddings + BM25), and Vega-Lite. Its NL2Code engine translates natural-language queries into executable Vega-Lite chart specifications, reducing chart creation time by ~80% while enforcing a zero-data-retention architecture.',
-      problem:
-        'Generating data visualizations via LLMs often fails when the model hallucinates column names, misjudges data distributions, or retains sensitive user datasets indefinitely in vector storage.',
-      approach: [
-        'Built an NL2Code translation pipeline that converts natural-language analytical queries directly into declarative Vega-Lite schemas rendered in React.js.',
-        'Implemented Hybrid RAG combining dense Gemini Embeddings with sparse BM25 lexical retrieval to pull dataset statistics, exact categorical values, and sample records into the prompt context.',
-        'Engineered a zero-data-retention vector store featuring automatic 30-minute TTL cleanup and explicit one-click session deletion.',
-      ],
-      traceTotalMs: '670ms (simulated pipeline trace)',
-      traceNote: 'Simulated LangSmith-style execution timeline illustrating the Hybrid RAG to Vega-Lite flow.',
-      trace: [
-        {
-          step: '01',
-          node: 'session_store.index_ephemeral_ttl',
-          type: 'INGEST',
-          durationMs: 95,
-          detail: 'Indexes dataset schema, statistics, and categorical values with a 30-minute TTL timer.',
-          io: {
-            input: 'dataset_frame, ttl_minutes=30',
-            output: 'ephemeral_session_id, schema_stats_index',
-          },
-        },
-        {
-          step: '02',
-          node: 'hybrid_rag.retrieve_bm25_dense',
-          type: 'RETRIEVE',
-          durationMs: 145,
-          detail: 'Executes hybrid retrieval (Gemini Embeddings + BM25) for column stats and sample records.',
-          io: {
-            input: 'user_nl_query, ephemeral_session_id',
-            output: 'grounded_columns[], categorical_values[], sample_rows[]',
-          },
-        },
-        {
-          step: '03',
-          node: 'nl2code.synthesize_vega_lite',
-          type: 'SYNTHESIZE',
-          durationMs: 390,
-          detail: 'Translates natural-language intent and grounded dataset context into a valid Vega-Lite spec.',
-          io: {
-            input: 'user_nl_query, grounded_context',
-            output: 'vega_lite_spec.json',
-          },
-        },
-        {
-          step: '04',
-          node: 'ttl_reaper.zero_retention_guard',
-          type: 'GUARD',
-          durationMs: 40,
-          detail: 'Schedules automatic 30-minute TTL purge or processes explicit session deletion.',
-          io: {
-            input: 'ephemeral_session_id',
-            output: 'retention_policy="ZERO_RETENTION_30M_TTL"',
-          },
-        },
-      ],
-      results: [
-        {
-          value: '~80%',
-          label: 'Faster Chart Creation',
-          detail: 'NL2Code engine translating user queries directly into Vega-Lite schemas.',
-        },
-        {
-          value: '30m TTL',
-          label: 'Zero-Data-Retention',
-          detail: 'Vector store with automatic 30-minute TTL cleanup and explicit session deletion.',
-        },
-        {
-          value: 'Hybrid RAG',
-          label: 'Grounded Schemas',
-          detail: 'Combines Gemini Embeddings + BM25 to retrieve stats, categories, and sample rows.',
-        },
-      ],
-      liveUrl: 'https://dataliveviz-1050064655758.asia-southeast1.run.app/',
-      repoUrl: 'https://github.com/KripakaraMN15/LiveDataViz',
-      links: {
-        liveDemo: 'https://dataliveviz-1050064655758.asia-southeast1.run.app/',
-        repository: 'https://github.com/KripakaraMN15/LiveDataViz',
-        screenshots: [
-          'Conversational NL2Code prompt to Vega-Lite chart canvas',
-          'Hybrid RAG grounding context & 30-minute TTL session monitor',
-        ],
-      },
-      previewType: 'livedataviz',
-      screenshot: '/projects/livedataviz.png',
-      screenshotAlt: 'LiveDataViz dashboard showing real-time interactive charts and analytics',
-      screenshotLink: 'https://dataliveviz-1050064655758.asia-southeast1.run.app/',
-      featured: false,
-    },
-    {
       order: 5,
       index: '05',
       slug: 'tripbuddy-ai',
@@ -895,6 +974,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
         '5-agent LangGraph system across 9 workflow nodes with 3 live MCP providers and human-in-the-loop booking approval.',
       listDescription: '5-agent LangGraph travel planner',
       year: '2025',
+      date: 'Jul 2025',
       tags: ['Python', 'LangGraph', 'Multi-Agent'],
       stack: ['Python', 'Next.js', 'LangGraph', 'LangSmith', 'MCP', 'FastAPI', 'PostgreSQL', 'Docker'],
       bullets: [
@@ -991,6 +1071,112 @@ export const PORTFOLIO_DATA: PortfolioData = {
       screenshot: '/projects/tripbuddy.png',
       screenshotAlt: 'TripBuddy AI itinerary planner showing interactive travel map and itinerary',
       screenshotLink: 'https://tripbuddy-multiagent-travel-planner-1.onrender.com/',
+      featured: false,
+    },
+    {
+      order: 6,
+      index: '06',
+      slug: 'live-data-viz',
+      name: 'LiveDataViz — Conversational Data Visualization',
+      shortTitle: 'LiveDataViz',
+      tagline:
+        'NL2Code engine translating user queries into Vega-Lite schemas with Hybrid RAG and zero-data-retention TTL cleanup.',
+      listDescription: 'Natural-language to Vega-Lite charts with hybrid RAG',
+      tags: ['React', 'RAG', 'Vega-Lite'],
+      stack: ['React.js', 'JavaScript', 'RAG', 'BM25', 'Gemini Embeddings', 'Vega-Lite'],
+      bullets: [
+        'NL2Code engine translating user queries into Vega-Lite schemas, reducing chart creation time by ~80%.',
+        'Hybrid RAG (Gemini Embeddings + BM25) retrieving dataset statistics, categorical values, and sample records to ground LLM-generated charts.',
+        'Vector store with automatic 30-minute TTL cleanup and explicit session deletion (zero-data-retention architecture).',
+      ],
+      overview:
+        'LiveDataViz is a conversational data visualization system built with React.js, JavaScript, Hybrid RAG (Gemini Embeddings + BM25), and Vega-Lite. Its NL2Code engine translates natural-language queries into executable Vega-Lite chart specifications, reducing chart creation time by ~80% while enforcing a zero-data-retention architecture.',
+      problem:
+        'Generating data visualizations via LLMs often fails when the model hallucinates column names, misjudges data distributions, or retains sensitive user datasets indefinitely in vector storage.',
+      approach: [
+        'Built an NL2Code translation pipeline that converts natural-language analytical queries directly into declarative Vega-Lite schemas rendered in React.js.',
+        'Implemented Hybrid RAG combining dense Gemini Embeddings with sparse BM25 lexical retrieval to pull dataset statistics, exact categorical values, and sample records into the prompt context.',
+        'Engineered a zero-data-retention vector store featuring automatic 30-minute TTL cleanup and explicit one-click session deletion.',
+      ],
+      traceTotalMs: '670ms (simulated pipeline trace)',
+      traceNote: 'Simulated LangSmith-style execution timeline illustrating the Hybrid RAG to Vega-Lite flow.',
+      trace: [
+        {
+          step: '01',
+          node: 'session_store.index_ephemeral_ttl',
+          type: 'INGEST',
+          durationMs: 95,
+          detail: 'Indexes dataset schema, statistics, and categorical values with a 30-minute TTL timer.',
+          io: {
+            input: 'dataset_frame, ttl_minutes=30',
+            output: 'ephemeral_session_id, schema_stats_index',
+          },
+        },
+        {
+          step: '02',
+          node: 'hybrid_rag.retrieve_bm25_dense',
+          type: 'RETRIEVE',
+          durationMs: 145,
+          detail: 'Executes hybrid retrieval (Gemini Embeddings + BM25) for column stats and sample records.',
+          io: {
+            input: 'user_nl_query, ephemeral_session_id',
+            output: 'grounded_columns[], categorical_values[], sample_rows[]',
+          },
+        },
+        {
+          step: '03',
+          node: 'nl2code.synthesize_vega_lite',
+          type: 'SYNTHESIZE',
+          durationMs: 390,
+          detail: 'Translates natural-language intent and grounded dataset context into a valid Vega-Lite spec.',
+          io: {
+            input: 'user_nl_query, grounded_context',
+            output: 'vega_lite_spec.json',
+          },
+        },
+        {
+          step: '04',
+          node: 'ttl_reaper.zero_retention_guard',
+          type: 'GUARD',
+          durationMs: 40,
+          detail: 'Schedules automatic 30-minute TTL purge or processes explicit session deletion.',
+          io: {
+            input: 'ephemeral_session_id',
+            output: 'retention_policy="ZERO_RETENTION_30M_TTL"',
+          },
+        },
+      ],
+      results: [
+        {
+          value: '~80%',
+          label: 'Faster Chart Creation',
+          detail: 'NL2Code engine translating user queries directly into Vega-Lite schemas.',
+        },
+        {
+          value: '30m TTL',
+          label: 'Zero-Data-Retention',
+          detail: 'Vector store with automatic 30-minute TTL cleanup and explicit session deletion.',
+        },
+        {
+          value: 'Hybrid RAG',
+          label: 'Grounded Schemas',
+          detail: 'Combines Gemini Embeddings + BM25 to retrieve stats, categories, and sample rows.',
+        },
+      ],
+      liveUrl: 'https://dataliveviz-1050064655758.asia-southeast1.run.app/',
+      repoUrl: 'https://github.com/KripakaraMN15/LiveDataViz',
+      links: {
+        liveDemo: 'https://dataliveviz-1050064655758.asia-southeast1.run.app/',
+        repository: 'https://github.com/KripakaraMN15/LiveDataViz',
+        screenshots: [
+          'Conversational NL2Code prompt to Vega-Lite chart canvas',
+          'Hybrid RAG grounding context & 30-minute TTL session monitor',
+        ],
+      },
+      previewType: 'livedataviz',
+      screenshot: '/projects/livedataviz.png',
+      screenshotAlt: 'LiveDataViz dashboard showing real-time interactive charts and analytics',
+      screenshotLink: 'https://dataliveviz-1050064655758.asia-southeast1.run.app/',
       featured: false,
     },
   ],
